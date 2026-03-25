@@ -5,7 +5,7 @@ Usage:
     python scripts/train.py \
         --data_dir data/faces \
         --epochs 15 \
-        --batch_size 8 \
+        --batch_size 16 \
         --lr 1e-4 \
         --seq_length 15
 """
@@ -112,7 +112,7 @@ def main():
     parser.add_argument("--checkpoint_dir", type=str, default="checkpoints",
                         help="Directory to save model checkpoints.")
     parser.add_argument("--epochs", type=int, default=15)
-    parser.add_argument("--batch_size", type=int, default=8)
+    parser.add_argument("--batch_size", type=int, default=16)
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--seq_length", type=int, default=15)
     parser.add_argument("--val_split", type=float, default=0.2,
@@ -197,7 +197,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-5)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode="min", patience=3, factor=0.5, verbose=True,
+        optimizer, mode="min", patience=5, factor=0.1
     )
 
     os.makedirs(args.checkpoint_dir, exist_ok=True)
